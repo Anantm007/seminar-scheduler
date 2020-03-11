@@ -20,7 +20,7 @@ const SocietySchema = new mongoose.Schema({
     }],
 
     pending: [{
-        type: mongoose.Schema.Tupes.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Booking'
     }],
 

@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-require('dotenv').config({path: '.env'});
 
 // Middleware utilities
 const bodyParser = require("body-parser");
@@ -11,7 +10,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 // Config variables
-require('dotenv').config();
+require('dotenv').config({path: '.env'});
 
 
 //Connecting to the database
@@ -35,9 +34,12 @@ app.get("/api", (req, res) => {
     });
 })
 
-// Mounting the routes
-//app.use('/api/society', require('./routes/society.js'));
+// Importing Routers
+const societyRouter = require('./routes/society');
 
+
+// Mounting the routes
+app.use('/api/society', societyRouter);
 
 // Serve Static Assets in production
 if(process.env.NODE_ENV === 'production')
