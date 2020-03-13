@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const SocietySchema = new mongoose.Schema({
 
@@ -30,10 +32,48 @@ const SocietySchema = new mongoose.Schema({
 
     resetPasswordExpire: {
         type: String
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
     
 }, {timestamps: true}
 
 );
 
-module.exports = mongoose.model('Society', SocietySchema);
+SocietySchema.methods.generateAuthToken = async function (){
+    const society = this
+    console.log('Helo',society)
+    const token = jwt.sign({society: {id: society.id}}, process.env.JWTSECRET)
+    console.log(token)
+    society.tokens = society.tokens.concat({token})
+    await society.save()
+    return token
+}
+
+SocietySchema.statics.findByCredentials = async (name, password) => {
+    const society = await Society.findOne({name: name})
+    if(!society){
+        throw new Error('Unable to Log In')
+    }
+    const isMatch=await bcrypt.compare(password,society.password)
+    if(!isMatch){
+        throw new Error('Unable to Log In')
+    }
+    return society
+}
+
+SocietySchema.pre('save',async function(next){
+    const society=this
+    if(society.isModified('password')){
+        society.password=await bcrypt.hash(society.password,8)
+    }
+    next()
+})
+
+const Society = mongoose.model('Society', SocietySchema);
+
+module.exports = Society;
