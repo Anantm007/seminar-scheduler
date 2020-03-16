@@ -36,10 +36,13 @@ app.get("/api", (req, res) => {
 
 // Importing Routers
 const societyRouter = require('./routes/society');
-
+const adminRouter = require('./routes/admin');
+const indexRouter = require('./routes/index');
 
 // Mounting the routes
 app.use('/api/society', societyRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api', indexRouter);
 
 // Serve Static Assets in production
 if(process.env.NODE_ENV === 'production')
