@@ -53,6 +53,11 @@ const BookingSchema = new mongoose.Schema({
         type: Number,
         enum: [1, 2, 3, 4, 5],
         required: [true, 'Please add an Event Seminar Hall Number']
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'accepted', 'rejected'],
+        default: 'pending'
     }
     
 }, {timestamps: true}
@@ -60,13 +65,11 @@ const BookingSchema = new mongoose.Schema({
 );
 
 BookingSchema.statics.checkAvailability = async (eventDate, startTime, endTime) => {
-    console.log(eventDate, startTime, endTime)
     var bookings = await Booking.find({
         "eventDate.date": eventDate.date,
         "eventDate.month": eventDate.month,
         "eventDate.year": eventDate.year
     })
-    console.log(bookings)
     if(bookings.length){
         let flag = 0
         for(let i=0; i<bookings.length; i++){
