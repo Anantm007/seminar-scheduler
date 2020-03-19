@@ -10,6 +10,12 @@ const AdminSchema = new mongoose.Schema({
         trim: true
     },
 
+    email: {
+        type: String,
+        required: [true, 'Please add an email'],
+        trim: true
+    },
+
     password: {
         type: String,
         required: [true, 'Please add a password'],
@@ -47,8 +53,8 @@ AdminSchema.methods.generateAuthToken = async function (){
     return token
 }
 
-AdminSchema.statics.findByCredentials = async (name, password) => {
-    const admin = await Admin.findOne({name: name})
+AdminSchema.statics.findByCredentials = async (email, password) => {
+    const admin = await Admin.findOne({email: email})
     if(!admin){
         throw new Error('Unable to Log In')
     }

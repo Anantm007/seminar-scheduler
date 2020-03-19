@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 require('dotenv').config()
+const crypto = require("crypto");
+const bcrypt = require('bcryptjs');
+const transporter = require("../helpers/emailHelper");
 
 // Models
 const Society = require('../models/society');
@@ -14,10 +17,10 @@ const Society = require('../models/society');
 // @desc    Register a new society
 // @access  Public 
 router.post('/signup', async (req, res) => {
-    const {name, password} = req.body;
+    const {name, email, password} = req.body;
 
     // Check for empty fields
-    if(!name || !password)
+    if(!name || !email || !password)
     {
         return res.json({
             success: false,
@@ -26,7 +29,7 @@ router.post('/signup', async (req, res) => {
     }
 
     // If society already exists
-    const s = await Society.findOne({name});
+    const s = await Society.findOne({email});
     if(s)
     {
         return res.json({
@@ -38,6 +41,7 @@ router.post('/signup', async (req, res) => {
     // Register a new society
     society = new Society({
         name,
+        email,
         password
       });
 
@@ -65,9 +69,9 @@ router.post('/signup', async (req, res) => {
 // @access  Public 
 router.post('/signin', async (req,res) => {
     try{
-        const {name, password} = req.body;
+        const {email, password} = req.body;
         // Find an existing society
-        const society = await Society.findByCredentials(name,password)
+        const society = await Society.findByCredentials(email,password)
         // Generate an auth token
         const token=await society.generateAuthToken()
         res.status(200).json({
@@ -82,5 +86,125 @@ router.post('/signin', async (req,res) => {
         })
     }
 })
+
+// @route   POST /api/society/forgot 
+// @desc    Forgot Password (send token)
+// @access  Only for registered but public
+router.post("/forgot", async(req, res) => {
+    const society = await Society.findOne({email: req.body.email});
+  
+    if(!society)
+    {
+      return res.json({
+        success: false,
+        message: "Society not registered"
+      });
+    }
+  
+    // Generate and hash password token using crypto (to be sent to the society)
+    const resetToken = crypto.randomBytes(20).toString('hex');
+  
+    // Hash it to store in the database
+    society.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  
+    // Set expire
+    society.resetPasswordExpire = Date.now() + 10 *60 * 1000;
+  
+    // Saving reset token and expires in the database
+    await society.save();
+  
+    // Send reset password email
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/society/resetPassword/${resetToken}`;
+  
+    let HelperOptions ={
+      from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
+      to : society.email,
+      subject : "Seminar Scheduler Password Reset",
+      text : "Hello " + society.name + `, \n\nYou are receiving this email because you have requested your password reset. Please visit: \n${resetUrl} and make a PUT request to reset your password.\n\nThe link is valid only for 10 minutes.\n\nRegards, \nSeminar Scheduler MSIT`
+    };
+  
+    transporter.sendMail(HelperOptions,(err,info)=>{
+      if(err) throw err;
+
+      console.log("The message was sent");
+      res.json({
+        success: true,
+        message: "Email sent successfully"
+      })
+     });
+  
+  });
+  
+  
+  
+  // @route   POST /api/society/validToken 
+  // @desc    Check whether token is valid or not
+  // @access  Only for registered (user cannot be auth if he forgot his password)
+  router.post("/validToken", async(req, res) => {
+    
+    const resetPasswordToken = crypto.createHash('sha256').update(req.body.token).digest('hex');
+  
+    const society = await Society.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() }
+    });
+  
+    if(!society)
+    {
+      return res.json({
+        success: false,
+        message: "Invalid Token"
+      })
+    }
+      
+    return res.json({ 
+        success: true 
+    });
+  })
+  
+  
+  
+  // @route   PUT /api/society/resetPassword/:resetToken 
+  // @desc    Reset Password using token
+  // @access  Only for registered
+  router.put("/resetPassword/:resetToken", async(req, res) => {
+  
+    // Validate new password
+    if(!req.body.password || req.body.password === "" || req.body.password.length < 6)
+    {
+      return res.json({
+        success: false,
+        message: "Please enter a valid password with 6 or more characters"
+      })
+    }
+  
+    const resetPasswordToken = crypto.createHash('sha256').update(req.params.resetToken).digest('hex');
+  
+    const society = await Society.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() }
+    });
+  
+    if(!society)
+    {
+      return res.json({
+        success: false,
+        message: "Invalid Token"
+      })
+    }
+
+    society.password = req.body.password;
+    society.resetPasswordToken = undefined;
+    society.resetPasswordExpire = undefined;
+
+    // Save new password to database
+    await society.save();
+
+    return res.json({
+      success: true,
+      message: "Password updated!",
+    })
+  })
+  
 
 module.exports = router;

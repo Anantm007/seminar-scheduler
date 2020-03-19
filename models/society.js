@@ -10,6 +10,12 @@ const SocietySchema = new mongoose.Schema({
         trim: true
     },
 
+    email: {
+        type: String,
+        required: [true, 'Please add an email'],
+        trim: true
+    },
+
     password: {
         type: String,
         required: [true, 'Please add a password'],
@@ -54,8 +60,8 @@ SocietySchema.methods.generateAuthToken = async function (){
     return token
 }
 
-SocietySchema.statics.findByCredentials = async (name, password) => {
-    const society = await Society.findOne({name: name})
+SocietySchema.statics.findByCredentials = async (email, password) => {
+    const society = await Society.findOne({email: email})
     if(!society){
         throw new Error('Unable to Log In')
     }
