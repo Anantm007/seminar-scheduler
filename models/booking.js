@@ -25,6 +25,11 @@ const BookingSchema = new mongoose.Schema({
         trim: true
     },
 
+    societyEmail: {
+        type: String,
+        trim: true
+    },
+
     societyId: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'Please add the Society Id']

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../helpers/authHelperSociety')
 
 require('dotenv').config()
 
@@ -7,11 +8,21 @@ const Booking = require('../models/booking');
 
 // @route   POST /api/booking/add 
 // @desc    Add a booking
-// @access  Public 
-router.post('/add', async(req,res)=>{
+// @access  Private(Only a registered society can apply for event) 
+router.post('/add', auth, async(req,res)=>{
     try{
         const data = req.body
-        var booking = new Booking(data)
+        var booking = new Booking({
+            name: data.name,
+            description: data.description,
+            societyName: req.society.name,
+            societyEmail: req.society.societyEmail,
+            societyId: req.society._id,
+            eventDate: data.eventDate,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            seminarHall: data.seminarHall
+        })
         await booking.save()
         res.status(200).json({
             success: true,
