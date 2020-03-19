@@ -6,7 +6,7 @@ const auth=async(req,res,next)=>{
         const token=req.header('Authorization').replace('Bearer ','')
         const decoded=jwt.verify(token,process.env.JWTSECRET)
         const society=await Society.findOne({
-            _id: decoded._id,
+            _id: decoded.society.id,
             'tokens.token': token
         })
         if(!society){
