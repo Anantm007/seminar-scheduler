@@ -10,7 +10,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 // Config variables
-require('dotenv').config({path: '.env'});
+require('dotenv').config({path: '.env.sample'});
 
 
 //Connecting to the database

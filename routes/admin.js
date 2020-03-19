@@ -3,11 +3,12 @@ const router = express.Router();
 
 require('dotenv').config()
 const crypto = require("crypto");
-const bcrypt = require('bcryptjs');
 const transporter = require("../helpers/emailHelper");
+const auth = require('../helpers/authHelperAdmin')
 
 // Models
 const Admin = require('../models/admin');
+const Booking = require('../models/booking');
 
 
 /*                                                  ROUTES                                                  */
@@ -17,10 +18,10 @@ const Admin = require('../models/admin');
 // @desc    Register a new admin
 // @access  Public 
 router.post('/signup', async (req, res) => {
-    const {name, email, password} = req.body;
+    const {name, email, password, seminarHallsIncharge} = req.body;
 
     // Check for empty fields
-    if(!name || !email || !password)
+    if(!name || !email || !password || !seminarHallsIncharge)
     {
         return res.json({
             success: false,
@@ -42,7 +43,8 @@ router.post('/signup', async (req, res) => {
     admin = new Admin({
         name,
         email,
-        password
+        password,
+        seminarHallsIncharge
       });
 
       await admin.save();
@@ -203,6 +205,57 @@ router.post("/forgot", async(req, res) => {
     return res.json({
       success: true,
       message: "Password updated!",
+    })
+  })
+
+  // @route   PUT /api/admin/bookings/:status 
+  // @desc    Fetch bookings of type status for the given hall of admin
+  // @access  Only for registered
+  router.get('/bookings/:status', auth, async(req,res)=>{
+    const admin = req.admin
+    if(!admin){
+      return res.json({
+        success: false,
+        message: "Invalid Token"
+      })
+    }
+    var bookings = []
+    for(let i=0;i<admin.seminarHallsIncharge.length; i++){
+      var books = await Booking.find({
+        seminarHall: admin.seminarHallsIncharge[i],
+        status: req.params.status
+      })
+      bookings = bookings.concat(books)
+    }
+    res.status(200).json({
+      success: true,
+      bookings
+    })
+  })
+
+  // @route   PUT /api/admin/address/:bookingId 
+  // @desc    Address a booking and change its status
+  // @access  Only for registered
+  router.post('/address/:bookingId/:status', auth, async(req,res)=>{
+    const admin = req.admin
+    if(!admin){
+      return res.json({
+        success: false,
+        message: "Invalid Token"
+      })
+    } 
+    const booking = await Booking.findOne({_id: req.params.bookingId})
+    if(!booking){
+      return res.json({
+        success: false,
+        message: "No such booking exists"
+      })
+    }
+    booking.status = req.params.status
+    await booking.save()
+    return res.status(200).json({
+      success: true,
+      booking
     })
   })
   
