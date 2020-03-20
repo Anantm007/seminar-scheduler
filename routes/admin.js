@@ -208,7 +208,7 @@ router.post("/forgot", async(req, res) => {
     })
   })
 
-  // @route   PUT /api/admin/bookings/:status 
+  // @route   GET /api/admin/bookings/:status 
   // @desc    Fetch bookings of type status for the given hall of admin
   // @access  Only for registered
   router.get('/bookings/:status', auth, async(req,res)=>{
