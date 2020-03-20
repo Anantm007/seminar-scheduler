@@ -5,6 +5,7 @@ const auth = require('../helpers/authHelperSociety')
 require('dotenv').config()
 
 const Booking = require('../models/booking');
+const Admin = require('../models/admin');
 
 // @route   POST /api/booking/add 
 // @desc    Add a booking
@@ -16,7 +17,7 @@ router.post('/add', auth, async(req,res)=>{
             name: data.name,
             description: data.description,
             societyName: req.society.name,
-            societyEmail: req.society.societyEmail,
+            societyEmail: req.society.email,
             societyId: req.society._id,
             eventDate: data.eventDate,
             startTime: data.startTime,
@@ -24,6 +25,24 @@ router.post('/add', auth, async(req,res)=>{
             seminarHall: data.seminarHall
         })
         await booking.save()
+
+        /*const admins = await Admin.find({seminarHallsIncharge: { "$in": [data.seminarHall]} }).select('name email');
+        console.log('lol', admins)
+        for(var i = 0; i < admins.length; i++)
+        {
+            let HelperOptions ={
+                from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
+                to : admins[i].email,
+                subject : `${booking.societyName} has requested permission for seminar hall  ${booking.seminarHall}`,
+                text : "Hello " + admins[i].name + `, \n\n${booking.societyName} has requested permission for seminar hall ${booking.seminarHall} for ${booking.name}. Please log in to review the application.\n\nRegards, \nSeminar Scheduler MSIT`
+              };
+            
+              transporter.sendMail(HelperOptions,(err,info)=>{
+                if(err) throw err;
+          
+                console.log("The message was sent");
+              })
+        }*/
         res.status(200).json({
             success: true,
             booking
