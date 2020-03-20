@@ -22,7 +22,7 @@ const AdminSchema = new mongoose.Schema({
         minlength: 6
     },
 
-    seminarHallsIncharge: [],
+    seminarHallsIncharge: [Number],
 
     resetPasswordToken: {
         type: String

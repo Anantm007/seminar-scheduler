@@ -208,7 +208,7 @@ router.post("/forgot", async(req, res) => {
     })
   })
 
-  // @route   PUT /api/admin/bookings/:status 
+  // @route   GET /api/admin/bookings/:status 
   // @desc    Fetch bookings of type status for the given hall of admin
   // @access  Only for registered
   router.get('/bookings/:status', auth, async(req,res)=>{
@@ -233,10 +233,10 @@ router.post("/forgot", async(req, res) => {
     })
   })
 
-  // @route   PUT /api/admin/address/:bookingId 
+  // @route   POST /api/admin/address/:bookingId 
   // @desc    Address a booking and change its status
   // @access  Only for registered
-  router.post('/address/:bookingId/:status', auth, async(req,res)=>{
+  router.post('/address/:bookingId', auth, async(req,res)=>{
     const admin = req.admin
     if(!admin){
       return res.json({
@@ -251,8 +251,36 @@ router.post("/forgot", async(req, res) => {
         message: "No such booking exists"
       })
     }
-    booking.status = req.params.status
+    booking.status = req.body.status
     await booking.save()
+
+    let HelperOptions = {};
+    if(booking.status === 'accepted')
+    {
+      HelperOptions = {
+        from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
+        to : booking.societyEmail,
+        subject : "Seminar Hall Request Accepted!",
+        text : "Hello " + booking.societyName + `, \n\nYour request for Seminar Hall ${booking.seminarHall} for ${booking.name} has been accepted. Please approach the hall incharge to proceed further.\n\nRegards, \nSeminar Scheduler MSIT`
+      };
+    }
+
+    else if (booking.status === 'rejected')
+    {
+      HelperOptions = {
+        from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
+        to : booking.societyEmail,
+        subject : "Seminar Hall Request Rejected :(",
+        text : "Hello " + booking.societyName + `, \n\nYour request for Seminar Hall ${booking.seminarHall} for ${booking.name} has been rejected.\nMessage from incharge: ${req.body.message}\n\nRegards, \nSeminar Scheduler MSIT`
+      };
+    }
+    
+  
+    transporter.sendMail(HelperOptions,(err,info)=>{
+      if(err) throw err;
+      console.log("The message was sent");
+    })
+
     return res.status(200).json({
       success: true,
       booking
