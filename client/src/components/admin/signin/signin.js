@@ -13,11 +13,11 @@ class Signin extends React.Component{
     }
     onEmailChange = (event) => { 
         this.setState({signInEmail: event.target.value})
-        console.log(this.signInEmail)
+        console.log(this.state.signInEmail)
     }
     onPasswordChange = (event) => {
         this.setState({signInPassword: event.target.value})
-        console.log(this.signInPassword)
+        console.log(this.state.signInPassword)
     }
     onSubmitSignIn = () => {
         fetch('url jo bhi hai', {
