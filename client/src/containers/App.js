@@ -1,17 +1,34 @@
-import React, {Fragment} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import Admin from '../components/admin/index'
-import Society from '../components/society/index';
+
+// Admin
+import AdminLogin from '../components/admin/signin/Signin';
+
+// Society
+import SocietyLogin from '../components/society/signin/Signin';
+
+// Layout
+import Landing from '../components/layout/landing/Landing';
+import NotFound from '../components/layout/notFound/Notfound';
+
+
+
 const App = () => {
   return (
-    <Fragment>
-      <h1>Seminar Schedular MSIT</h1>
+    <Router>
       <Switch>
-        <Route path='/admin' component={Admin} />
-        <Route path='/society' component={Society} />
+        
+        <Route exact path = '/' component={Landing} />
+
+        <Route exact path='/admin/signin' component={AdminLogin} />
+        
+        <Route exact path='/society/signin' component={SocietyLogin} />
+
+        <Route component={NotFound} />
+
       </Switch>
-    </Fragment>
+    </Router>
   );
 }
 
