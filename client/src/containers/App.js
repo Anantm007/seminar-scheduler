@@ -4,6 +4,7 @@ import './App.css';
 
 // Admin
 import AdminLogin from '../components/admin/signin/Signin';
+import AdminDashboard from '../components/admin/dashboard/Dashboard';
 
 // Society
 import SocietyLogin from '../components/society/signin/Signin';
@@ -13,7 +14,8 @@ import Landing from '../components/layout/landing/Landing';
 import NavBar from '../components/layout/navbar/Navbar';
 import NotFound from '../components/layout/notFound/Notfound';
 
-
+// Auth Routes
+import AdminRoute from '../components/adminAuth/AdminRoute';
 
 const App = () => {
   return (
@@ -21,11 +23,13 @@ const App = () => {
       <NavBar />
       <Switch>
         
-        <Route exact path = '/' component={Landing} />
+        <Route exact path = '/' component = {Landing} />
 
-        <Route exact path='/admin/signin' component={AdminLogin} />
-        
-        <Route exact path='/society/signin' component={SocietyLogin} />
+        <Route exact path = '/admin/signin' component = {AdminLogin} />
+        <AdminRoute exact path = '/admin/dashboard' component = {AdminDashboard} />
+
+
+        <Route exact path = '/society/signin' component = {SocietyLogin} />
 
         <Route component={NotFound} />
 
