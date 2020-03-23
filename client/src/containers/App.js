@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 // Admin
-import AdminLogin from '../components/admin/signin/Signin';
+import AdminLogin from '../components/admin/signin/signin';
 
 // Society
-import SocietyLogin from '../components/society/signin/Signin';
+import SocietyLogin from '../components/society/signin/signin';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
