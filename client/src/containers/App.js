@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 // Admin
-import AdminLogin from '../components/admin/signin/signin';
+import AdminLogin from '../components/admin/signin/Signin';
 
 // Society
-import SocietyLogin from '../components/society/signin/signin';
+import SocietyLogin from '../components/society/signin/Signin';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
+import NavBar from '../components/layout/navbar/Navbar';
 import NotFound from '../components/layout/notFound/Notfound';
 
 
@@ -17,6 +18,7 @@ import NotFound from '../components/layout/notFound/Notfound';
 const App = () => {
   return (
     <Router>
+      <NavBar />
       <Switch>
         
         <Route exact path = '/' component={Landing} />
