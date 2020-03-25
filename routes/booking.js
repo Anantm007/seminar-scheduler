@@ -60,8 +60,25 @@ router.post('/add', auth, async(req,res)=>{
 // @access  Public 
 router.post('/check', async (req,res)=>{
     try{
-        const data = req.body
-        var check = await Booking.checkAvailability(data.eventDate, data.startTime, data.endTime)
+        console.log(req.body)        
+        const {seminarHall, eventDate, startTime, endTime} = req.body;
+        if(!seminarHall || !eventDate || !startTime || !endTime)
+        {
+            return res.json({
+                success: false,
+                nessage: "Please fill all the fields"
+            })
+        }
+        
+        let x = Number(seminarHall)
+        
+        const eDate = {
+            date: eventDate.substring(8,9),
+            month: eventDate.substring(5,6),
+            year: eventDate.substring(0,3)
+        }
+
+        var check = await Booking.checkAvailability(x, eDate, startTime, endTime)
         if(check){
             res.status(200).json({
                 success: true,

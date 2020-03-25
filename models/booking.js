@@ -69,12 +69,14 @@ const BookingSchema = new mongoose.Schema({
 
 );
 
-BookingSchema.statics.checkAvailability = async (eventDate, startTime, endTime) => {
+BookingSchema.statics.checkAvailability = async (seminarHall, eventDate, startTime, endTime) => {
     var bookings = await Booking.find({
+        "seminarHall": seminarHall,
         "eventDate.date": eventDate.date,
         "eventDate.month": eventDate.month,
         "eventDate.year": eventDate.year
     })
+
     if(bookings.length){
         let flag = 0
         for(let i=0; i<bookings.length; i++){
