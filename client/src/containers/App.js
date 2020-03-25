@@ -8,6 +8,7 @@ import AdminDashboard from '../components/admin/dashboard/Dashboard';
 
 // Society
 import SocietyLogin from '../components/society/signin/Signin';
+import SocietyDashboard from '../components/society/dashboard/Dashboard';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
@@ -16,6 +17,7 @@ import NotFound from '../components/layout/notFound/Notfound';
 
 // Auth Routes
 import AdminRoute from '../components/adminAuth/AdminRoute';
+import SocityRoute from '../components/societyAuth/SocietyRoute';
 
 const App = () => {
   return (
@@ -30,6 +32,7 @@ const App = () => {
 
 
         <Route exact path = '/society/signin' component = {SocietyLogin} />
+        <SocityRoute exact path = '/society/dashboard' component = {SocietyDashboard} />
 
         <Route component={NotFound} />
 
