@@ -1,14 +1,21 @@
 import React, {Fragment, useState} from 'react';
+import {Redirect} from 'react-router-dom';
+import {signin, authenticate, isAuthenticated} from '../../societyAuth';
+
+import Spinner from '../../layout/spinner/Spinner';
+import './signin.css';
+import './util.css';
  
 const Login = () => {
 
     const [values, setValues] = useState({
-        email: '',
-        password: '',
-        loading: false,
+        email: 'gupta.ankur255@gmail.com',
+        password: '123456',
+        error: '',
+        loading: false
     });
 
-    const {email, password, loading} = values;
+    const {email, password, error, loading} = values;
 
     const handleChange = name => e => {
         setValues({...values, error: false, [name]: e.target.value})
@@ -17,62 +24,85 @@ const Login = () => {
         const clickSubmit = (e) => {
         e.preventDefault();
         setValues({...values, error: false, loading: true});
-/*        signin({email, password})
+        signin({email, password})
         .then(data => {
+            console.log(data)
             if(data.success === false)
             {
-                setValues({...values, error: data.message, loading: false})
+                setValues({...values, error: 'Login Failed', loading: false})
             }
             else
             {
-                setValues({...values, loading: false});
+                window.location.reload(false);
+                authenticate(data, () => {
+                    setValues({...values, success: true, loading: false});
+                })
             }
-        })*/
+        })
 
     }
 
-    const signUpForm = () => (
-        <div className="container">
-                    <br/><br/>  
-                    
-                    <div className="card bg-light">
-                    <article className="card-body mx-auto" style={{maxWdith: "400px"}}>
-                        <h4 className="card-title mt-3 text-center">SOCIETY LOGIN</h4>
-                        
-                        <form>
-                            <div className="form-group input-group">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
-                                </div>
-                                <input onChange={handleChange('email')} type="email" value={email} className="form-control" placeholder="Your Email address" />
-                            </div> 
-                            
-                            <div className="form-group input-group">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
-                                </div>
-                                <input onChange={handleChange('password')} value={password} className="form-control" placeholder="Enter a Password" type="password" />
-                            </div> 
-                            
-                            <br />
-                            <div className="form-group">
-                                <button onClick={clickSubmit} className="btn btn-primary btn-block"> Sign In</button>
-                            </div>  
-                            <br />
+    const showError = () => {
+        return (<div className="alert alert-danger" style={{display: error ? '': 'none'}}>
+            {error}
+        </div>
+        )
+    }
 
+    const showLoading = () => 
+        
+            loading && <Spinner/>
+
+    const redirectUser = () => {
+        if(isAuthenticated())
+        {
+            return <Redirect to="/society/dashboard" />
+        }
+    }
+
+    const signUpForm = () => (
+        <div className="limiter">
+            <div className="container-login100">
+                <div className="wrap-login100">
+                    <div className="login100-form-title">
+                        <span className="login100-form-title-1">
+                            Society Sign In
+                        </span>
+                    </div>
+                    <form className="login100-form validate-form">
+                        <div className="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+                            <span className="label-input100">Email</span>
+                            <input onChange={handleChange('email')} className="input100" type="email" value={email} placeholder="Enter Email" />
+                            <span className="focus-input100"></span>
+                        </div>
+
+                        <div className="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+                            <span className="label-input100">Password</span>
+                            <input onChange={handleChange('password')} className="input100" type="password" value={password} placeholder="Enter Password" />
+                            <span className="focus-input100"></span>
+                        </div>
+
+                        <div className="container-login100-form-btn">
+                            <button onClick={clickSubmit} className="login100-form-btn">
+                                Login
+                            </button>
+                        </div>
                     </form>
-                    <br /><br />
-                    </article>
-                    </div> 
                 </div>
+            </div>
+        </div>
     );
 
     return (
-        <Fragment>
+        
+        loading ? <div>{showLoading()}</div> : (<Fragment>
             <div>
+                {showError()}
+                {showLoading()}
+                {redirectUser()}
                 {signUpForm()}
             </div>
-        </Fragment>
+        </Fragment>)
            
     )
 };
