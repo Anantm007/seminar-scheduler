@@ -114,7 +114,7 @@ router.post("/forgot", async(req, res) => {
     await society.save();
   
     // Send reset password email
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/society/resetPassword/${resetToken}`;
+    const resetUrl = `${req.protocol}://localhost:3000/society/reset/password/${resetToken}`;
   
     let HelperOptions ={
       from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
