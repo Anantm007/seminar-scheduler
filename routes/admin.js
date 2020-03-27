@@ -116,13 +116,13 @@ router.post("/forgot", async(req, res) => {
     await admin.save();
   
     // Send reset password email
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/admin/resetPassword/${resetToken}`;
+    const resetUrl = `${req.protocol}://localhost:3000/admin/reset/password/${resetToken}`;
   
     let HelperOptions ={
       from : process.env.EmailName + '<'+ (process.env.EmailId)+'>' ,
       to : admin.email,
       subject : "Seminar Scheduler Password Reset",
-      text : "Hello " + admin.name + `, \n\nYou are receiving this email because you have requested your password reset. Please visit: \n${resetUrl} and make a PUT request to reset your password.\n\nThe link is valid only for 10 minutes.\n\nRegards, \nSeminar Scheduler MSIT`
+      text : "Hello " + admin.name + `, \n\nYou are receiving this email because you have requested your password reset. Please visit: \n${resetUrl} to reset your password.\n\nThe link is valid only for 10 minutes.\n\nRegards, \nSeminar Scheduler MSIT`
     };
   
     transporter.sendMail(HelperOptions,(err,info)=>{
