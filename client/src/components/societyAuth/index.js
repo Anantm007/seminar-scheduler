@@ -30,7 +30,7 @@ export const authenticate = (data) => {
 }
 
 // Signout so destroy the local token
-export const signout = () => {
+export const signoutSociety = () => {
     if(typeof window !== 'undefined')
     {
         localStorage.removeItem('societyjwt');
@@ -39,7 +39,7 @@ export const signout = () => {
 };
 
 // Return if user is authenticated or not
-export const isAuthenticated = () => {
+export const isAuthenticatedSociety = () => {
     if(typeof window === 'undefined')
     {
         return false;

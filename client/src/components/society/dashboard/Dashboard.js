@@ -1,9 +1,9 @@
 import React from 'react'
-import {isAuthenticated} from '../../societyAuth';
+import {isAuthenticatedSociety} from '../../societyAuth';
 
 const Dashboard = () => {
 
-    const {society: {name}} = isAuthenticated();
+    const {society: {name}} = isAuthenticatedSociety();
 
     return (
         <div>
