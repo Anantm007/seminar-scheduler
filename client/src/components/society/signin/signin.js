@@ -1,6 +1,6 @@
 import React, {Fragment, useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import {signin, authenticate, isAuthenticated} from '../../societyAuth';
+import {signin, authenticate, isAuthenticatedSociety} from '../../societyAuth';
 
 import Spinner from '../../layout/spinner/Spinner';
 import ForgotPass from '../forgotpass/ForgotPass';
@@ -56,7 +56,7 @@ const Login = () => {
             loading && <Spinner/>
 
     const redirectUser = () => {
-        if(isAuthenticated())
+        if(isAuthenticatedSociety())
         {
             return <Redirect to="/society/dashboard" />
         }
