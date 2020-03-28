@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 require('dotenv').config({path: '.env'});
 
 
+
 //Connecting to the database
 mongoose.promise = global.Promise;
 mongoose.connect(process.env.MongoURI,{useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true}, (err,db)=> {
