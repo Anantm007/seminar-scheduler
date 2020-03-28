@@ -5,10 +5,12 @@ import './App.css';
 // Admin
 import AdminLogin from '../components/admin/signin/Signin';
 import AdminDashboard from '../components/admin/dashboard/Dashboard';
+import ResetPass from '../components/admin/resetpass/ResetPass';
 
 // Society
 import SocietyLogin from '../components/society/signin/Signin';
 import SocietyDashboard from '../components/society/dashboard/Dashboard';
+import SocietyResetPass from '../components/society/resetpass/ResetPass';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
@@ -29,10 +31,11 @@ const App = () => {
 
         <Route exact path = '/admin/signin' component = {AdminLogin} />
         <AdminRoute exact path = '/admin/dashboard' component = {AdminDashboard} />
-
+        <Route exact path="/admin/reset/password/:token" component = {ResetPass} />
 
         <Route exact path = '/society/signin' component = {SocietyLogin} />
         <SocityRoute exact path = '/society/dashboard' component = {SocietyDashboard} />
+        <Route exact path="/society/reset/password/:token" component = {SocietyResetPass} />
 
         <Route component={NotFound} />
 

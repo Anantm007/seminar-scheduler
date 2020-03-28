@@ -3,6 +3,8 @@ import {Redirect} from 'react-router-dom';
 import {signin, authenticate, isAuthenticatedSociety} from '../../societyAuth';
 
 import Spinner from '../../layout/spinner/Spinner';
+import ForgotPass from '../forgotpass/ForgotPass';
+
 import './signin.css';
 import './util.css';
  
@@ -81,6 +83,12 @@ const Login = () => {
                             <input onChange={handleChange('password')} className="input100" type="password" value={password} placeholder="Enter Password" />
                             <span className="focus-input100"></span>
                         </div>
+
+                        <div className="container">
+                            <a href="/#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
+                        </div>
+                        <ForgotPass id="pwdModal" />
+
 
                         <div className="container-login100-form-btn">
                             <button onClick={clickSubmit} className="login100-form-btn">

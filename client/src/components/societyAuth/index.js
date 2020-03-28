@@ -52,3 +52,40 @@ export const isAuthenticatedSociety = () => {
         return false;
     }
 }
+
+
+// Forgot Password (send token)
+export const forgot = async email => {
+    return fetch(`/api/society/forgot`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(email)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+// Update password
+export const updatePassword = async (password, token) => {
+    return fetch(`/api/society/resetPassword/${token}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(password)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}

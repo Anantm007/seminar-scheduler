@@ -52,3 +52,39 @@ export const isAuthenticated = () => {
         return false;
     }
 }
+
+// Forgot Password (send token)
+export const forgot = async email => {
+    return fetch(`/api/admin/forgot`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(email)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+// Update password
+export const updatePassword = async (password, token) => {
+    return fetch(`/api/admin/resetPassword/${token}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(password)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
