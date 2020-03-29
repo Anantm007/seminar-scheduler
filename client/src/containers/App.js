@@ -11,6 +11,8 @@ import ResetPass from '../components/admin/resetpass/ResetPass';
 import SocietyLogin from '../components/society/signin/Signin';
 import SocietyDashboard from '../components/society/dashboard/Dashboard';
 import SocietyResetPass from '../components/society/resetpass/ResetPass';
+import CheckSlot from '../components/society/checkSlot/CheckSlot';
+import BookSlot from '../components/society/bookSlot/BookSlot';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
@@ -36,6 +38,8 @@ const App = () => {
         <Route exact path = '/society/signin' component = {SocietyLogin} />
         <SocityRoute exact path = '/society/dashboard' component = {SocietyDashboard} />
         <Route exact path="/society/reset/password/:token" component = {SocietyResetPass} />
+        <SocityRoute exact path = '/society/check' component = {CheckSlot} />
+        <SocityRoute exact path = '/society/book' component = {BookSlot} />
 
         <Route component={NotFound} />
 
