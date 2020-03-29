@@ -30,6 +30,9 @@ const Navigation = () => {
             <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/">Seminar Schedular MSIT</Navbar.Brand>
                 <Nav className="ml-auto">
+                <Nav.Link href="/society/dashboard" className="active">Dashboard</Nav.Link>    
+                <Nav.Link href="/society/check" className="active">Check Slot</Nav.Link>
+                <Nav.Link href="/society/book" className="active">Book Slot</Nav.Link>
                 <Nav.Link className="active" onClick={signoutSociety}>Logout</Nav.Link>
                 </Nav>
             </Navbar>
