@@ -11,8 +11,8 @@ import './util.css';
 const Login = () => {
 
     const [values, setValues] = useState({
-        email: 'gupta.ankur255@gmail.com',
-        password: '123456',
+        email: 'anant.mathur007@gmail.com',
+        password: 'anantmathur',
         error: '',
         loading: false
     });
@@ -91,7 +91,7 @@ const Login = () => {
 
 
                         <div className="container-login100-form-btn">
-                            <button onClick={clickSubmit} className="login100-form-btn">
+                            <button onClick={clickSubmit} type="submit" className="login100-form-btn">
                                 Login
                             </button>
                         </div>
