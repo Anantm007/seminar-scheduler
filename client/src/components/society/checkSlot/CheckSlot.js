@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {Fragment} from 'react'
+import CheckAvailableSlot from '../../layout/checkAvailableSlot/CheckAvailableSlot';
 
 const CheckSlot = () => {
     return (
-        <div>
+        <Fragment>
             <h1>Check Slot</h1>
-        </div>
+            <CheckAvailableSlot />
+        </Fragment>
     )
 }
 
