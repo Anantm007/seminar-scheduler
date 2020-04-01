@@ -20,6 +20,9 @@ const Navigation = () => {
             <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/">Seminar Schedular MSIT</Navbar.Brand>
                 <Nav className="ml-auto">
+                <Nav.Link href="/admin/dashboard" className="active">Dashboard</Nav.Link>    
+                <Nav.Link href="/admin/check" className="active">Events</Nav.Link>
+                <Nav.Link href="/admin/book" className="active">Book Slot</Nav.Link>
                 <Nav.Link className="active" onClick={signout}>Logout</Nav.Link>
                 </Nav>
             </Navbar>
