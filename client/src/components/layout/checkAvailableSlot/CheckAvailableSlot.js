@@ -6,7 +6,7 @@ import {checkSlot} from '../apiLayout';
 const CheckAvailableSlot = () => {
 
     const [values, setValues] = useState({
-        eventDate: '',
+        eventDate: 'YYYY-MM-DD',
         seminarHall: '',
         startTime: '',
         endTime: '',
@@ -72,7 +72,7 @@ const CheckAvailableSlot = () => {
             </select>
 
             <label htmlFor="eventDate">Date Of Seminar</label>
-            <input type="date" onChange={handleChange('eventDate')} name="eventDate" id="eventDate"/>            
+            <input type="text" onChange={handleChange('eventDate')} name="eventDate" value={eventDate}/>            
 
             <select onChange={handleChange('startTime')} className="selectpicker" data-show-subtext="true" style={{margin: '1rem'}}>
                 <option selected={true} disabled="disabled">Starting Time</option>
