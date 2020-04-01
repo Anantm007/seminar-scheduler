@@ -2,12 +2,21 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import {isAuthenticated, signout} from '../../adminAuth';
 import {isAuthenticatedSociety, signoutSociety} from '../../societyAuth';
+import './navbar.css';
 
 const Navigation = () => {
     if(!(isAuthenticated() || isAuthenticatedSociety())){
         return( 
             <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="/">Seminar Schedular MSIT</Navbar.Brand>
+                <Navbar.Brand href="/" className="navbar-brand">
+                    <img
+                    src="./msit_logo.jpg"
+                    width="30"
+                    height="30"
+                    alt="logo"
+                    />
+                    Seminar Schedular MSIT
+                </Navbar.Brand>
                 <Nav className="ml-auto">
                 <Nav.Link href="/society/signin" className="active">Society Login</Nav.Link>
                 <Nav.Link href="/admin/signin" className="active">Admin Login</Nav.Link>
