@@ -7,37 +7,35 @@ const Dashboard = () => {
 
     var adminDetails = isAuthenticated();
 
+    // const [bookings, setBookings] = useState([]);
+
     const [values, setValues] = useState({
         admin: adminDetails,
         bookings: [],
         type: '',
-        error: null,
-        loading: false
+        error: '',
+        loading: false,
+        success: false
     })
 
-    const { admin, bookings, type, error, loading } = values
+    const {admin, type, error, bookings, success, loading} = values;
 
-    const clickSubmit = (type) => {
+    const fetchData  = (type) => {
         setValues({...values, error: false, loading: true});
-        console.log({loading})
         getBookingRequests(type)
         .then(data => {
-            console.log(data)
+            console.log('hey',data.bookings)
             if(data.success === false)
             {
                 setValues({...values, error: 'Get Bookings Faced Error', loading: false})
             }
             else
             {
+                // setBookings(data.bookings)
                 setValues({...values, bookings: data.bookings, success: true, loading: false});
-                console.log({bookings, admin})
+                console.log('HIII', bookings)
             }
         })
-    }
-
-    const getBookings = (type) => {
-        console.log('Hello', type)
-        clickSubmit(type)
     }
 
     return (
@@ -48,13 +46,13 @@ const Dashboard = () => {
             <Card.Header>
                 <Nav variant="tabs">
                 <Nav.Item>
-                    <Nav.Link href="#first" onClick={() => getBookings('pending')}>Pending</Nav.Link>
+                    <Nav.Link href="#first" onClick={() => fetchData('pending')}>Pending</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="#second" onClick={() => getBookings('accepted')}>Accepted</Nav.Link>
+                    <Nav.Link href="#second" onClick={() => fetchData('accepted')}>Accepted</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="#third" onClick={() => getBookings('rejected')}>Rejected</Nav.Link>
+                    <Nav.Link href="#third" onClick={() => fetchData('rejected')}>Rejected</Nav.Link>
                 </Nav.Item>
                 </Nav>
             </Card.Header>
