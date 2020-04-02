@@ -74,7 +74,8 @@ BookingSchema.statics.checkAvailability = async (seminarHall, eventDate, startTi
         "seminarHall": seminarHall,
         "eventDate.date": eventDate.date,
         "eventDate.month": eventDate.month,
-        "eventDate.year": eventDate.year
+        "eventDate.year": eventDate.year,
+        "status": "accepted"
     })
 
     if(bookings.length){
