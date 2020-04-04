@@ -9,7 +9,7 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Anant Mathur",
+  "author": "Anant Mathur & Ankur Gupta",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",

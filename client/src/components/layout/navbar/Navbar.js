@@ -8,7 +8,7 @@ import Image from './msit_logo.jpg';
 const Navigation = () => {
     if(!(isAuthenticated() || isAuthenticatedSociety())){
         return( 
-            <Navbar bg="dark" variant="dark" className="try">
+            <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/" className="navbar-brand">
                     <img
                     src={Image}
@@ -27,7 +27,7 @@ const Navigation = () => {
     }
     else if(isAuthenticated()){
         return( 
-            <Navbar bg="dark" variant="dark" className="nav">
+            <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/" className="navbar-brand">
                     <img
                     src={Image}
@@ -48,7 +48,7 @@ const Navigation = () => {
     }
     else if(isAuthenticatedSociety()){
         return( 
-            <Navbar bg="dark" variant="dark" className="nav">
+            <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/" className="navbar-brand">
                     <img
                     src={Image}
