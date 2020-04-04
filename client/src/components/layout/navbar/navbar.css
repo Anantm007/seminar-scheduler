@@ -1,7 +1,11 @@
 .navbar-brand {
-    display: flex;
-    align-items: center;
-  }
-  .navbar-brand>img {
-    padding: 7px 14px;
-  }
+  display: flex;
+  align-items: center;
+}
+.navbar-brand>img {
+  padding: 7px 14px;
+}
+.try{
+  font-family: 'Roboto', sans-serif;
+  font-size: 20000px;
+}
