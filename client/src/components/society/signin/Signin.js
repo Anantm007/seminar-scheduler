@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {signin, authenticate, isAuthenticatedSociety} from '../../societyAuth';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Card } from 'react-bootstrap';
 
 import Spinner from '../../layout/spinner/Spinner';
 import ForgotPass from '../forgotpass/ForgotPass';
@@ -61,26 +61,30 @@ const Login = () => {
     }
 
     const signUpForm = () => (
-        <Form>
-        <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control onChange={handleChange('email')} type="email" placeholder="Enter email" value={email} />
-            <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-            </Form.Text>
-        </Form.Group>
+        <Card sm={8} style={{ "margin": "20px" }}>
+            <Card.Body>
+            <Form>
+            <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control onChange={handleChange('email')} type="email" placeholder="Enter email" value={email} />
+                <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+                </Form.Text>
+            </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control onChange={handleChange('password')} type="password" placeholder="Password" value={password} />
-        </Form.Group>
-        <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" onClick={clickSubmit}>
-            Submit
-        </Button>
-        </Form>
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control onChange={handleChange('password')} type="password" placeholder="Password" value={password} />
+            </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Button variant="primary" onClick={clickSubmit}>
+                Submit
+            </Button>
+            </Form>
+            </Card.Body>
+        </Card>
         // <div className="limiter">
         //     <div className="container-login100">
         //         <div className="wrap-login100">
