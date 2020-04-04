@@ -1,81 +1,89 @@
-import React, { useState } from 'react'
-import {Button, Card, Container, Row, Col, Image, Nav} from 'react-bootstrap';
-import {isAuthenticated} from '../../adminAuth';
-import { getBookingRequests } from '../apiAdmin';
+import React from 'react';
+import { Button, Card, Container, Row, Col, Image, Nav } from 'react-bootstrap';
+import { isAuthenticated } from '../../adminAuth';
+import BookingList from './BookingsList';
 
-const Dashboard = () => {
+class Dashboard extends React.Component{
+    constructor(props){
+        super()
+        this.state = {
+            admin: {},
+            bookings: [],
+            type: null
+        }
+    }
 
-    var adminDetails = isAuthenticated();
-
-    // const [bookings, setBookings] = useState([]);
-
-    const [values, setValues] = useState({
-        admin: adminDetails,
-        bookings: [],
-        type: '',
-        error: '',
-        loading: false,
-        success: false
-    })
-
-    const {admin, type, error, bookings, success, loading} = values;
-
-    const fetchData  = (type) => {
-        setValues({...values, error: false, loading: true});
-        getBookingRequests(type)
-        .then(data => {
-            console.log('hey',data.bookings)
-            if(data.success === false)
-            {
-                setValues({...values, error: 'Get Bookings Faced Error', loading: false})
-            }
-            else
-            {
-                // setBookings(data.bookings)
-                setValues({...values, bookings: data.bookings, success: true, loading: false});
-                console.log('HIII', bookings)
-            }
+    componentDidMount(){
+        var propAdmin = isAuthenticated()
+        console.log(propAdmin.admin)
+        this.setState({ admin: propAdmin.admin }, ()=> {
+            console.log(this.state.admin)
         })
     }
 
-    return (
-        <Container>
-            <Row>
-            <Col sm={8}>
-            <Card border="danger" bg="light">
-            <Card.Header>
-                <Nav variant="tabs">
-                <Nav.Item>
-                    <Nav.Link href="#first" onClick={() => fetchData('pending')}>Pending</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="#second" onClick={() => fetchData('accepted')}>Accepted</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="#third" onClick={() => fetchData('rejected')}>Rejected</Nav.Link>
-                </Nav.Item>
-                </Nav>
-            </Card.Header>
-                <Card.Body>
-                    {}
-                </Card.Body>
-            </Card>
-            <br />
-            <br />
-            </Col>
+    fetchBookings = (type) => {
+        fetch(`/api/admin/bookings/${type}`,{
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': JSON.parse(localStorage.getItem('adminjwt')).token
+            },
+        }).then(response => response.json()).then(data =>{
+            this.setState({ bookings: data.bookings })
+            this.setState({ type })
+            console.log(this.state.bookings)
+        })
+    }
 
-            <Col sm={4}>
-            <Card border="danger" bg="light">
-                <Card.Header as="h4">Profile Info</Card.Header>
-                <Card.Body>
-                </Card.Body>
-            </Card>
-            <br />
-            <br />
-            </Col>
-            </Row>
-        </Container>
-    )
+    doOperation = (type) => {
+        this.fetchBookings(type)
+    }
+
+    render(){
+        return(
+            <Container>
+                <Row style = {{ "padding-top": "10px" }}>
+                <Col sm={8}>
+                <Card border="danger" bg="light">
+                <Card.Header>
+                    <Nav variant="tabs">
+                    <Nav.Item>
+                        <Nav.Link href="#first" onClick={() => this.doOperation('pending')}>Pending</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="#second" onClick={() => this.doOperation('accepted')}>Accepted</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="#third" onClick={() => this.doOperation('rejected')}>Rejected</Nav.Link>
+                    </Nav.Item>
+                    </Nav>
+                </Card.Header>
+                    <Card.Body>
+                        { this.state.bookings.length ? <BookingList bookings={this.state.bookings} /> : <h1> There are No Bookings of {this.state.type} Type. </h1> }
+                    </Card.Body>
+                </Card>
+                <br />
+                <br />
+                </Col>
+
+                <Col sm={4}>
+                <Card border="danger" bg="light" className="text-center">
+                    <Card.Header as="h4">Profile Info</Card.Header>
+                    <Card.Body>
+                        <Card.Title>{this.state.admin.name}</Card.Title>
+                        <Card.Text>{this.state.admin.email}</Card.Text>
+                        <Card.Text>Unique Id: {this.state.admin._id}</Card.Text>
+                        <Button variant="primary">Edit Profile</Button>
+                    </Card.Body>
+                    <Card.Footer className="text-muted">Seminar Hall Managed: No. {this.state.admin.seminarHallsIncharge} </Card.Footer>
+                </Card>
+                <br />
+                <br />
+                </Col>
+                </Row>
+            </Container>
+        )
+    }
 }
 
-export default Dashboard
+export default Dashboard;

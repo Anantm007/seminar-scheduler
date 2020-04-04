@@ -7,10 +7,10 @@ import './navbar.css';
 const Navigation = () => {
     if(!(isAuthenticated() || isAuthenticatedSociety())){
         return( 
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" className="try">
                 <Navbar.Brand href="/" className="navbar-brand">
                     <img
-                    src="./msit_logo.jpg"
+                    src="/msit_logo.jpg"
                     width="30"
                     height="30"
                     alt="logo"
@@ -26,7 +26,7 @@ const Navigation = () => {
     }
     else if(isAuthenticated()){
         return( 
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" className="nav">
                 <Navbar.Brand href="/">Seminar Schedular MSIT</Navbar.Brand>
                 <Nav className="ml-auto">
                 <Nav.Link href="/admin/dashboard" className="active">Dashboard</Nav.Link>    
@@ -39,7 +39,7 @@ const Navigation = () => {
     }
     else if(isAuthenticatedSociety()){
         return( 
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" className="nav">
                 <Navbar.Brand href="/">Seminar Schedular MSIT</Navbar.Brand>
                 <Nav className="ml-auto">
                 <Nav.Link href="/society/dashboard" className="active">Dashboard</Nav.Link>    
