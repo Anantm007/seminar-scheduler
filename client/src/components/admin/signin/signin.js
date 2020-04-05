@@ -1,9 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {signin, authenticate, isAuthenticated} from '../../adminAuth';
-
-import './signin.css';
-import './util.css';
+import { Form, Button, Card } from 'react-bootstrap';
 
 import Spinner from '../../layout/spinner/Spinner';
 import ForgotPass from '../forgotpass/ForgotPass';
@@ -64,41 +62,66 @@ const Signin = () => {
     }
 
     const signUpForm = () => (
-        <div className="limiter">
-            <div className="container-login100">
-                <div className="wrap-login100">
-                    <div className="login100-form-title">
-                        <span className="login100-form-title-1">
-                            Admin Sign In
-                        </span>
-                    </div>
-                    <form className="login100-form validate-form">
-                        <div className="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-                            <span className="label-input100">Email</span>
-                            <input onChange={handleChange('email')} className="input100" type="email" value={email} placeholder="Enter Email" />
-                            <span className="focus-input100"></span>
-                        </div>
+        <Card sm={8} style={{ "margin": "20px" }}>
+            <Card.Body>
+            <Form>
+            <Form.Group controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control onChange={handleChange('email')} type="email" placeholder="Enter email" value={email} />
+                <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+                </Form.Text>
+            </Form.Group>
 
-                        <div className="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-                            <span className="label-input100">Password</span>
-                            <input onChange={handleChange('password')} className="input100" type="password" value={password} placeholder="Enter Password" />
-                            <span className="focus-input100"></span>
-                        </div>
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control onChange={handleChange('password')} type="password" placeholder="Password" value={password} />
+            </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+                <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Button variant="primary" onClick={clickSubmit}>
+                Submit
+            </Button>
+            </Form>
+            </Card.Body>
+        </Card>
+        
+        // <div className="limiter">
+        //     <div className="container-login100">
+        //         <div className="wrap-login100">
+        //             <div className="login100-form-title">
+        //                 <span className="login100-form-title-1">
+        //                     Admin Sign In
+        //                 </span>
+        //             </div>
+        //             <form className="login100-form validate-form">
+        //                 <div className="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+        //                     <span className="label-input100">Email</span>
+        //                     <input onChange={handleChange('email')} className="input100" type="email" value={email} placeholder="Enter Email" />
+        //                     <span className="focus-input100"></span>
+        //                 </div>
 
-                        <div className="container">
-                            <a href="/#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
-                        </div>
-                        <ForgotPass id="pwdModal" />
+        //                 <div className="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+        //                     <span className="label-input100">Password</span>
+        //                     <input onChange={handleChange('password')} className="input100" type="password" value={password} placeholder="Enter Password" />
+        //                     <span className="focus-input100"></span>
+        //                 </div>
 
-                        <div className="container-login100-form-btn">
-                            <button onClick={clickSubmit} className="login100-form-btn">
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        //                 <div className="container">
+        //                     <a href="/#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
+        //                 </div>
+        //                 <ForgotPass id="pwdModal" />
+
+        //                 <div className="container-login100-form-btn">
+        //                     <button onClick={clickSubmit} className="login100-form-btn">
+        //                         Login
+        //                     </button>
+        //                 </div>
+        //             </form>
+        //         </div>
+        //     </div>
+        // </div>
      )
 
     return (
