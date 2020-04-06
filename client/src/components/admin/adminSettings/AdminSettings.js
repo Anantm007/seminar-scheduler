@@ -1,9 +1,9 @@
 import React, {useEffect, useState, Fragment} from 'react'
 // import Footer from '../layout/Footer';
-import {getSociety, Update, updateSociety} from '../apiSociety';
+import {getAdmin, Update, updateAdmin} from '../apiAdmin';
 import Spinner from '../../layout/spinner/Spinner';
 
-const SocietySettings = (props) => {
+const AdminSettings = (props) => {
 
     const id = props.match.params.id;
 
@@ -16,28 +16,28 @@ const SocietySettings = (props) => {
     });
 
     const {name, email, error, loading, success} = values;
-    
-    const loadSociety = () => {
+
+    const loadAdmin = () => {
         setValues({...values, loading: true})
-        getSociety(id).then(data => {
+        getAdmin(id).then(data => {
             if(data.success === false)
             {         
                 setValues({...values, error: data.message, loading: false});
             }
-  
+
             else
             {
                 setValues({...values, name: data.data.name, email: data.data.email})
             }
         })
     }
-  
-    
+
+
     useEffect(() => {
-        loadSociety();
+        loadAdmin();
         // eslint-disable-next-line
     }, [])
-    
+
 
     const handleChange = name => e => {
         setValues({...values, [name]: e.target.value}) 
@@ -46,7 +46,7 @@ const SocietySettings = (props) => {
     const clickSubmit = e => {
         e.preventDefault();
         setValues({...values, error: '', loading: true});
-        
+
         Update( id, values)
         .then(data => {
             if(data.success === false)
@@ -56,7 +56,7 @@ const SocietySettings = (props) => {
 
             else
             {
-                updateSociety(data.data, () => {
+                updateAdmin(data.data, () => {
                     setValues({...values, success: true, error: false, loading: false })
                 })
 
@@ -64,8 +64,8 @@ const SocietySettings = (props) => {
         })
     }
 
-    const SocietyForm = () => (
-        
+    const AdminForm = () => (
+
         <form className="mb-3" onSubmit={clickSubmit}>
                 {showLoading()}
 
@@ -73,7 +73,7 @@ const SocietySettings = (props) => {
                 <label>Name</label>
                 <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
             </div>
-            
+
             <div className="form-group">
                 <label>Email</label>
                 <input className="form-control" value={email}/>
@@ -116,7 +116,7 @@ const SocietySettings = (props) => {
         </div>
         <div className="row">
             <div className="col-md-8 offset-md-2">
-                {SocietyForm()}
+                {AdminForm()}
             </div>
         </div>
 
@@ -125,4 +125,4 @@ const SocietySettings = (props) => {
     )
 }
 
-export default SocietySettings
+export default AdminSettings

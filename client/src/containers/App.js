@@ -6,6 +6,7 @@ import './App.css';
 import AdminLogin from '../components/admin/signin/Signin';
 import AdminDashboard from '../components/admin/dashboard/Dashboard';
 import ResetPass from '../components/admin/resetpass/ResetPass';
+import AdminSettings from '../components/admin/adminSettings/AdminSettings';
 
 // Society
 import SocietyLogin from '../components/society/signin/Signin';
@@ -35,6 +36,7 @@ const App = () => {
         <Route exact path = '/admin/signin' component = {AdminLogin} />
         <AdminRoute exact path = '/admin/dashboard' component = {AdminDashboard} />
         <Route exact path="/admin/reset/password/:token" component = {ResetPass} />
+        <AdminRoute exact path = '/admin/:id/settings' component = {AdminSettings} />
 
         <Route exact path = '/society/signin' component = {SocietyLogin} />
         <SocietyRoute exact path = '/society/dashboard' component = {SocietyDashboard} />

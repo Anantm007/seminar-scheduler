@@ -40,8 +40,8 @@ const Navigation = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                     <Nav.Link href="/admin/dashboard" className="active">Dashboard</Nav.Link>    
-                    <Nav.Link href="/admin/check" className="active">Events</Nav.Link>
-                    <Nav.Link href="/admin/book" className="active">Book Slot</Nav.Link>
+                    <Nav.Link href="/admin/check" className="active">Manage Events</Nav.Link>
+                    {/* <Nav.Link href="/admin/book" className="active">Book Slot</Nav.Link> */}
                     <Nav.Link className="active" onClick={signout}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
