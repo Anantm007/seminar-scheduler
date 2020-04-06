@@ -63,6 +63,7 @@ const Login = () => {
     const signUpForm = () => (
         <Card sm={8} style={{ "margin": "20px" }}>
             <Card.Body>
+            <h1 className="text-center">Society Login</h1>
             <Form>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -76,12 +77,18 @@ const Login = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control onChange={handleChange('password')} type="password" placeholder="Password" value={password} />
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+
+            <div className="container">
+                <a href="/#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
+            </div>
+            <ForgotPass id="pwdModal" />
+
+            <div className="text-center">
             <Button variant="primary" onClick={clickSubmit}>
-                Submit
+                LOGIN
             </Button>
+            </div>
+
             </Form>
             </Card.Body>
         </Card>
