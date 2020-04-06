@@ -11,7 +11,7 @@ const Signin = () => {
 
     const [values, setValues] = useState({
         email: 'anantcodesweb@gmail.com',
-        password: '123456',
+        password: 'anantmathur',
         error: '',
         loading: false
     })
@@ -30,7 +30,7 @@ const Signin = () => {
             console.log(data)
             if(data.success === false)
             {
-                setValues({...values, error: 'Login Failed', loading: false})
+                setValues({...values, error: 'Invalid Credentials', loading: false})
             }
             else
             {
@@ -64,6 +64,7 @@ const Signin = () => {
     const signUpForm = () => (
         <Card sm={8} style={{ "margin": "20px" }}>
             <Card.Body>
+                <h1 className="text-center">Admin Login</h1>
             <Form>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -77,12 +78,17 @@ const Signin = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control onChange={handleChange('password')} type="password" placeholder="Password" value={password} />
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
+            
+            <div className="container">
+                <a href="/#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
+            </div>
+            <ForgotPass id="pwdModal" />
+
+            <div className="text-center">
             <Button variant="primary" onClick={clickSubmit}>
-                Submit
+                LOGIN
             </Button>
+            </div>
             </Form>
             </Card.Body>
         </Card>
