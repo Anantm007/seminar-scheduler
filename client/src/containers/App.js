@@ -13,6 +13,7 @@ import SocietyDashboard from '../components/society/dashboard/Dashboard';
 import SocietyResetPass from '../components/society/resetpass/ResetPass';
 import CheckSlot from '../components/society/checkSlot/CheckSlot';
 import BookSlot from '../components/society/bookSlot/BookSlot';
+import SocietySettings from '../components/society/societySettings/SocietySettings';
 
 // Layout
 import Landing from '../components/layout/landing/Landing';
@@ -21,7 +22,7 @@ import NotFound from '../components/layout/notFound/Notfound';
 
 // Auth Routes
 import AdminRoute from '../components/adminAuth/AdminRoute';
-import SocityRoute from '../components/societyAuth/SocietyRoute';
+import SocietyRoute from '../components/societyAuth/SocietyRoute';
 
 const App = () => {
   return (
@@ -36,10 +37,11 @@ const App = () => {
         <Route exact path="/admin/reset/password/:token" component = {ResetPass} />
 
         <Route exact path = '/society/signin' component = {SocietyLogin} />
-        <SocityRoute exact path = '/society/dashboard' component = {SocietyDashboard} />
+        <SocietyRoute exact path = '/society/dashboard' component = {SocietyDashboard} />
         <Route exact path="/society/reset/password/:token" component = {SocietyResetPass} />
-        <SocityRoute exact path = '/society/check' component = {CheckSlot} />
-        <SocityRoute exact path = '/society/book' component = {BookSlot} />
+        <SocietyRoute exact path = '/society/check' component = {CheckSlot} />
+        <SocietyRoute exact path = '/society/book' component = {BookSlot} />
+        <SocietyRoute exact path = '/society/:id/settings' component = {SocietySettings} />
 
         <Route component={NotFound} />
 
