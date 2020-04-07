@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {Link} from 'react';
 import { Button, Card, Container, Row, Col, Image, Nav } from 'react-bootstrap';
 import { isAuthenticated } from '../../adminAuth';
 import BookingList from './BookingsList';
 
 class Dashboard extends React.Component{
+
     constructor(props){
         super()
         this.state = {
@@ -71,9 +72,13 @@ class Dashboard extends React.Component{
                     <Card.Header as="h4">Profile Info</Card.Header>
                     <Card.Body>
                         <Card.Title>{this.state.admin.name}</Card.Title>
+                        <hr/>
                         <Card.Text>{this.state.admin.email}</Card.Text>
+                        <hr/>
                         <Card.Text>Unique Id: {this.state.admin._id}</Card.Text>
-                        <Button variant="primary">Edit Profile</Button>
+                        <hr/>
+                        <Nav.Link href={`/admin/${this.state.admin._id}/settings`} className="nav-link">Admin Settings (Profile)</Nav.Link>
+                        {/* <Button variant="primary">Edit Profile</Button> */}
                     </Card.Body>
                     <Card.Footer className="text-muted">Seminar Hall Managed: No. {this.state.admin.seminarHallsIncharge} </Card.Footer>
                 </Card>

@@ -13,6 +13,7 @@ const Dashboard = () => {
                 <ul className="list-group">
                     <li className="list-group-item"><Link to="/society/check" className="nav-link">Check Slot</Link></li>
                     <li className="list-group-item"><Link to='/society/book' className="nav-link">Book Slot</Link></li>
+                    <li className="list-group-item"><Link to={`/society/${_id}/settings`} className="nav-link">Society Settings</Link></li>
                 </ul>
 
             </div>

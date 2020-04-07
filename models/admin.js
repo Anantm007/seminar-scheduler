@@ -45,7 +45,6 @@ const AdminSchema = new mongoose.Schema({
 
 AdminSchema.methods.generateAuthToken = async function (){
     const admin = this
-    console.log('Helo',admin)
     const token = jwt.sign({admin: {id: admin.id}}, process.env.JWTSECRET)
     console.log(token)
     admin.tokens = admin.tokens.concat({token})

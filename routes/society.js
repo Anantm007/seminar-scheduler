@@ -9,6 +9,8 @@ const transporter = require("../helpers/emailHelper");
 // Models
 const Society = require('../models/society');
 
+// Auth middleware
+const auth = require('../helpers/authHelperSociety');
 
 /*                                                  ROUTES                                                  */
 
@@ -137,74 +139,139 @@ router.post("/forgot", async(req, res) => {
   
   
   
-  // @route   POST /api/society/validToken 
-  // @desc    Check whether token is valid or not
-  // @access  Only for registered (user cannot be auth if he forgot his password)
-  router.post("/validToken", async(req, res) => {
+// @route   POST /api/society/validToken 
+// @desc    Check whether token is valid or not
+// @access  Only for registered (user cannot be auth if he forgot his password)
+router.post("/validToken", async(req, res) => {
+  
+  const resetPasswordToken = crypto.createHash('sha256').update(req.body.token).digest('hex');
+
+  const society = await Society.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+
+  if(!society)
+  {
+    return res.json({
+      success: false,
+      message: "Invalid Token"
+    })
+  }
     
-    const resetPasswordToken = crypto.createHash('sha256').update(req.body.token).digest('hex');
+  return res.json({ 
+      success: true 
+  });
+})
+
   
-    const society = await Society.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() }
-    });
   
-    if(!society)
-    {
-      return res.json({
-        success: false,
-        message: "Invalid Token"
-      })
-    }
-      
-    return res.json({ 
-        success: true 
-    });
+// @route   PUT /api/society/resetPassword/:resetToken 
+// @desc    Reset Password using token
+// @access  Only for registered
+router.put("/resetPassword/:resetToken", async(req, res) => {
+
+  // Validate new password
+  if(!req.body.password || req.body.password === "" || req.body.password.length < 6)
+  {
+    return res.json({
+      success: false,
+      message: "Please enter a valid password with 6 or more characters"
+    })
+  }
+
+  const resetPasswordToken = crypto.createHash('sha256').update(req.params.resetToken).digest('hex');
+
+  const society = await Society.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+
+  if(!society)
+  {
+    return res.json({
+      success: false,
+      message: "Invalid Token"
+    })
+  }
+
+  society.password = req.body.password;
+  society.resetPasswordToken = undefined;
+  society.resetPasswordExpire = undefined;
+
+  // Save new password to database
+  await society.save();
+
+  return res.json({
+    success: true,
+    message: "Password updated!",
   })
-  
-  
-  
-  // @route   PUT /api/society/resetPassword/:resetToken 
-  // @desc    Reset Password using token
-  // @access  Only for registered
-  router.put("/resetPassword/:resetToken", async(req, res) => {
-  
-    // Validate new password
-    if(!req.body.password || req.body.password === "" || req.body.password.length < 6)
+})
+
+
+// @route   GET /api/society/getSociety/:id 
+// @desc    Get a society details
+// @access  Private
+router.get('/getSociety/:id', async(req, res) => {
+
+  try {
+    const society = await Society.findById(req.params.id);
+
+    if(society)
     {
       return res.json({
-        success: false,
-        message: "Please enter a valid password with 6 or more characters"
+        success: true,
+        data: society
       })
     }
   
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.resetToken).digest('hex');
+    else
+    {
+      return res.json({
+        success: false,
+        message: 'Society Not Found'
+      })
+    }  
+  } catch (err) {
+      return res.json({
+        success: false,
+        message: err
+      })
+  }
+}) 
+
+// @route   PUT /api/society/update/:id
+// @desc    Update a society by id
+// @access  Private (using middleware) 
+router.put('/update/:id', async(req, res) => {
   
-    const society = await Society.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() }
+  // Checking for empty fields
+  for (var keys in req.body) {
+    if (req.body[keys] === undefined || req.body[keys] === "") 
+    {
+      var incomplete = keys;
+      break;
+    }
+  }
+  
+  // Return error if there are some undefined values
+  if (incomplete != undefined) {
+    return res.json({
+      success: false,
+      message: "Please fill " + incomplete.toUpperCase()
     });
-  
-    if(!society)
-    {
-      return res.json({
-        success: false,
-        message: "Invalid Token"
-      })
-    }
+  }
 
-    society.password = req.body.password;
-    society.resetPasswordToken = undefined;
-    society.resetPasswordExpire = undefined;
-
-    // Save new password to database
-    await society.save();
-
+  await Society.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, society) => {
+    society.password = undefined;
     return res.json({
       success: true,
-      message: "Password updated!",
-    })
-  })
-  
+      data: society
+    });
+
+    });
+});
+
+
 
 module.exports = router;
