@@ -5,6 +5,7 @@ import './App.css';
 // Admin
 import AdminLogin from '../components/admin/signin/Signin';
 import AdminDashboard from '../components/admin/dashboard/Dashboard';
+import BookingPage from '../components/admin/dashboard/BookingPage';
 import ResetPass from '../components/admin/resetpass/ResetPass';
 import AdminSettings from '../components/admin/adminSettings/AdminSettings';
 
@@ -35,6 +36,7 @@ const App = () => {
 
         <Route exact path = '/admin/signin' component = {AdminLogin} />
         <AdminRoute exact path = '/admin/dashboard' component = {AdminDashboard} />
+        <AdminRoute path = '/admin/dashboard/:bookingId' component = {BookingPage} />
         <Route exact path="/admin/reset/password/:token" component = {ResetPass} />
         <AdminRoute exact path = '/admin/:id/settings' component = {AdminSettings} />
 

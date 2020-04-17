@@ -146,4 +146,16 @@ router.post('/check', async (req,res)=>{
     }
 })
 
+router.get('/get/:bookingId', async (req,res) => {
+    try{
+        var booking = await Booking.findOne({ _id: req.params.bookingId })
+        if(!booking){
+            throw "No Such Booking Exists"
+        }
+        res.status(200).json({ error: false, booking })
+    } catch (e){
+        res.status(400).json({ error: true, message: e })
+    }
+})
+
 module.exports = router;

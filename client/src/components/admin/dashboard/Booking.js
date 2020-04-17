@@ -11,7 +11,7 @@ const Booking = (props) => {
                 <Card.Text>Event Description: {props.data.description}</Card.Text>
                 <Card.Text>Event Date: {props.data.eventDate.date}-{props.data.eventDate.month}-{props.data.eventDate.year}</Card.Text>
                 <Card.Text>Event Timings: ({props.data.startTime} - {props.data.endTime})</Card.Text>
-                <Card.Link href="#">View More</Card.Link>
+                <Card.Link href={`/admin/dashboard/${props.data._id}`}>View More</Card.Link>
             </Card.Body>
         </Card>
     )
