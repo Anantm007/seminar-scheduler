@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Container, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import {isAuthenticated, signout} from '../../adminAuth';
 import {isAuthenticatedSociety, signoutSociety} from '../../societyAuth';
 import './navbar.css';
