@@ -53,7 +53,7 @@ const SocietySchema = new mongoose.Schema({
 SocietySchema.methods.generateAuthToken = async function (){
     const society = this
     const token = jwt.sign({society: {id: society.id}}, process.env.JWTSECRET)
-    console.log(token)
+    // console.log(token)
     society.tokens = society.tokens.concat({token})
     await society.save()
     return token
