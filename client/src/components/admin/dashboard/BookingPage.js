@@ -48,7 +48,8 @@ class BookingPage extends React.Component{
                 message: this.state.message
             })
         }).then(response => response.json()).then(data =>{
-            console.log(data)
+            console.log(data);
+            window.location = '/admin/dashboard';
         })
     }
 
@@ -82,7 +83,7 @@ class BookingPage extends React.Component{
                             <Form.Group as={Row} controlId="formGridAddress1">
                                 <Form.Label column sm="2">Message</Form.Label>
                                 <Col sm="10">
-                                <Form.Control onChange={this.handleChange} placeholder="Teri aukat nhi hai booking krne ki bsdk" />
+                                <Form.Control onChange={this.handleChange} placeholder="Please enter a message for accept rejection" />
                                 </Col>
                             </Form.Group>
                             </Form>

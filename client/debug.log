@@ -29,3 +29,5 @@
 [0407/002405.398:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0407/003412.365:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0419/020500.922:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0427/123603.563:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0427/134938.560:ERROR:crash_report_database_win.cc(469)] failed to stat report
