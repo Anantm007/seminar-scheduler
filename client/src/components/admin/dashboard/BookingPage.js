@@ -63,9 +63,9 @@ class BookingPage extends React.Component{
         return(
             <Card sm={8} style={{ "margin": "20px" }}>
                 <Card.Body>
-                    <h1 className="text-center">{this.state.booking.name}</h1>
-                    <h2 className="text-center">{this.state.booking.description}</h2>
-                    <h3 className="text-center">{this.state.booking.societyName}</h3>
+                    <h3 className="">{this.state.booking.name}</h3><br/>
+                    <div className="row"><strong>Event Description : </strong>&nbsp;&nbsp; <p >{this.state.booking.description}</p><br/></div> 
+                    <div className="row"><strong>Society : </strong>&nbsp;&nbsp; <h6>{this.state.booking.societyName}</h6><br/></div> 
                 </Card.Body>
                 <div className="mb-2 text-center">
                     <Button variant="success" size="sm" onClick={() => {this.triggerAction('accepted')}}>
