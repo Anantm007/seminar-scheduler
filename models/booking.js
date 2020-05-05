@@ -81,7 +81,7 @@ BookingSchema.statics.checkAvailability = async (seminarHall, eventDate, startTi
     if(bookings.length){
         let flag = 0
         for(let i=0; i<bookings.length; i++){
-            if(bookings[i].startTime < startTime && bookings[i].endTime < startTime){
+            if(bookings[i].startTime < startTime && bookings[i].endTime <= startTime){
                 flag = 1
                 break
             }
