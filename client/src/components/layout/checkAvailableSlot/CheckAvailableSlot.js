@@ -27,9 +27,9 @@ const CheckAvailableSlot = () => {
         console.log(eventDate, seminarHall, startTime, endTime)
         checkSlot({eventDate, seminarHall, startTime, endTime})
         .then(data => {
-            if(data.success === false)
+            if(data.availability === false)
             {
-                setValues({...values, error: data.message, loading: false})
+                setValues({...values, error: "Slot is Booked", loading: false})
             }
             else
             {
