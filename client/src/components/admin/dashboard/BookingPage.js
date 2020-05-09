@@ -67,6 +67,8 @@ class BookingPage extends React.Component{
                     <div className="row"><strong>Event Description : </strong>&nbsp;&nbsp; <p >{this.state.booking.description}</p><br/></div> 
                     <div className="row"><strong>Society : </strong>&nbsp;&nbsp; <h6>{this.state.booking.societyName}</h6><br/></div> 
                 </Card.Body>
+                { 
+                this.state.booking.status === "pending" ? 
                 <div className="mb-2 text-center">
                     <Button variant="success" size="sm" onClick={() => {this.triggerAction('accepted')}}>
                     Accept
@@ -93,7 +95,11 @@ class BookingPage extends React.Component{
                         </Card.Body>
                         </Accordion.Collapse>
                         </Accordion>
-                </div>
+                </div> : 
+                <div className="mb-2 text-center">
+                    <strong>Event Booking Status </strong>&nbsp;&nbsp; <p >{this.state.booking.status}</p>
+                </div> 
+                }
             </Card>
             
         )
