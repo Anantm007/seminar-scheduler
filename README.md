@@ -30,7 +30,7 @@ Coming to the main part of the application, we have set up an authentication sys
 
 If the seminar hall is not available for booking then an error message is displayed and no request for booking is made to the respective incharge.
 
-We have not made any registration feature as this application is not meant to be used by all the students in the college. So, we will just sign up the seminar hall incharges and societies ourselves and send them the credentials. They can change the password if they wish to.
+We have not made any registration feature as this application is not meant to be used by all the students in the college. So, we will just sign up the seminar hall incharges and societies ourselves and send them the credentials. They can change the password if they wish to via the forgot password feature.
 
 ### Technology Stack
 
