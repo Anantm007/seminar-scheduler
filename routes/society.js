@@ -12,6 +12,9 @@ const Society = require("../models/society");
 // Auth middleware
 const auth = require("../helpers/authHelperSociety");
 
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 /*                                                  ROUTES                                                  */
 
 // @route   POST /api/society/signup
@@ -117,24 +120,27 @@ router.post("/forgot", async (req, res) => {
     const resetUrl = `${req.protocol}://localhost:3000/society/reset/password/${resetToken}`;
 
     let HelperOptions = {
-      from: process.env.EmailName + "<" + process.env.EmailId + ">",
+      from: process.env.EmailName + "<payments@anantmathur.me>",
       to: society.email,
       subject: "Seminar Scheduler Password Reset",
       text:
         "Hello " +
         society.name +
-        `, \n\nYou are receiving this email because you have requested your password reset. Please visit: \n${resetUrl} and make a PUT request to reset your password.\n\nThe link is valid only for 10 minutes.\n\nRegards, \nSeminar Scheduler MSIT`,
+        `, \n\nYou are receiving this email because you have requested your password reset. Please visit: \n${resetUrl} to reset your password.\n\nThe link is valid only for 10 minutes.\n\nRegards, \nSeminar Scheduler MSIT`,
     };
 
-    transporter.sendMail(HelperOptions, (err, info) => {
-      if (err) throw err;
-
-      console.log("The message was sent");
-      res.json({
-        success: true,
-        message: "Email sent successfully",
+    sgMail
+      .send(HelperOptions)
+      .then(() => {
+        console.log("Email sent");
+        return res.status(200).json({
+          success: true,
+          message: "Instructions to reset password has been sent yo your email",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal Server Error" });
